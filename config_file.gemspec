@@ -16,4 +16,6 @@ Gem::Specification.new do |gem|
   gem.version       = ConfigFile::VERSION
 
   gem.add_dependency("blankslate")
+
+  gem.add_development_dependency('rspec')
 end

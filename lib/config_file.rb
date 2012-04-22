@@ -2,39 +2,14 @@ require "config_file/version"
 require 'yaml'
 require 'pathname'
 require 'erb'
+require 'blankslate'
 
-class ConfigFile < BlankSlate
+require 'config_file/file'
+require 'config_file/include'
+
+module ConfigFile
   class UnknownConfigFile < ArgumentError; end
   class UnknownKey < StandardError; end
-  attr_writer :raise_on_missing_key
-
-  def initialize file
-    @file = file
-    @raise_on_missing_key = false
-  end
-
-  def method_missing(key,*args)
-    @data = nil if ConfigFile.dev?
-    if data.has_key?(key)
-      data[key]
-    elsif data.has_key?(key.to_s)
-      data[key.to_s]
-    else
-      @raise_on_missing_key ? raise(UnknownKey, "#{key} couldn't be found in #{@file}") : nil
-    end
-  end
-
-  def __data__
-    @data ||= begin
-      d = nil
-      File.open(@file) do |f|
-        d = YAML.load ERB.new(f.read).result
-      end
-      d = d[ConfigFile.env] if d.has_key? ConfigFile.env
-      d
-    end
-  end
-  alias data __data__
 
   ALL = {}
   class << self
@@ -55,7 +30,7 @@ class ConfigFile < BlankSlate
       when defined?(Rails)
         Rails.root
       else
-        Pathname.new(File.expand_path('.'))
+        ::Pathname.new(File.expand_path('.'))
       end
     end
 
@@ -69,7 +44,7 @@ class ConfigFile < BlankSlate
 
     def method_missing(name,*args)
       ALL[name] ||= if file = find_file(name)
-        new(file)
+        File.new(file)
       else
         raise UnknownConfigFile, "couldn't find file at 'config/#{name}.yml'"
       end
@@ -84,7 +59,7 @@ class ConfigFile < BlankSlate
         files << root+"#{dir}/#{name}.yaml"
       end
       files.find do |f|
-        File.exist?(f)
+        ::File.exist?(f)
       end
     end
   end

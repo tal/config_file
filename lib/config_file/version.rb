@@ -1,5 +1,3 @@
-require 'blankslate'
-
-class ConfigFile < BlankSlate
-  VERSION = "0.0.1"
+module ConfigFile
+  VERSION = "0.0.2"
 end
