@@ -4,6 +4,10 @@ module ConfigFile
 
     def config_file_name=file
       @config_file = ConfigFile.send(file)
+      __setup_config_methods__
+      @config_file
+    rescue UnknownConfigFile
+      @config_file
     end
 
     def __setup_config_methods__
@@ -32,6 +36,5 @@ module ConfigFile
     receiver.send :include, InstanceMethods
 
     receiver.config_file_name = word
-    receiver.__setup_config_methods__
   end
 end
