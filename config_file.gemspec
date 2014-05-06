@@ -15,7 +15,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = ConfigFile::VERSION
 
-  gem.add_dependency("blankslate")
-
   gem.add_development_dependency('rspec')
 end

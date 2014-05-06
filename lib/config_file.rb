@@ -2,8 +2,8 @@ require "config_file/version"
 require 'yaml'
 require 'pathname'
 require 'erb'
-require 'blankslate'
 
+require 'config_file/blank_slate'
 require 'config_file/file'
 require 'config_file/include'
 

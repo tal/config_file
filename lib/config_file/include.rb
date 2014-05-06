@@ -27,6 +27,7 @@ module ConfigFile
 
   def self.included(receiver)
     word = receiver.to_s
+    # snake case the class name and look for that as the config file
     word.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
     word.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
     word.tr!("-", "_")
