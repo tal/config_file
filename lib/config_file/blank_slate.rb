@@ -65,7 +65,7 @@ module Kernel
     def method_added(name)
       result = blank_slate_method_added(name)
       return result if self != Kernel
-      BlankSlate.hide(name)
+      ConfigFile::BlankSlate.hide(name)
       result
     end
   end
@@ -83,7 +83,7 @@ class Object
     def method_added(name)
       result = blank_slate_method_added(name)
       return result if self != Object
-      BlankSlate.hide(name)
+      ConfigFile::BlankSlate.hide(name)
       result
     end
 
@@ -106,7 +106,7 @@ class Module
     result = blankslate_original_append_features(mod)
     return result if mod != Object
     instance_methods.each do |name|
-      BlankSlate.hide(name)
+      ConfigFile::BlankSlate.hide(name)
     end
     result
   end

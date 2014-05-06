@@ -16,6 +16,10 @@ module ConfigFile
       end
     end
 
+    def inspect
+      %Q{#<ConfigFile::File #{::File.basename(@file)} #{__data__}>}
+    end
+
     def __data__
       @data ||= begin
         d = nil
